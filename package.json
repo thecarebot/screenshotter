@@ -1,0 +1,15 @@
+{
+  "name": "screenshotter",
+  "version": "1.0.0",
+  "description": "Takes a screenshot of a portion of a webpage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Hampel",
+  "license": "MIT",
+  "dependencies": {
+    "lwip": "0.0.8",
+    "phantom": "^2.0.10"
+  }
+}

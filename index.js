@@ -66,6 +66,7 @@ app.get('/api/image', function (req, res) {
   .then(function(buffer) {
     b = new Buffer(buffer, 'base64');
 
+    res.status(200);
     res.writeHead({
       'Content-Type': 'image/png',
       'Content-Length': b.length

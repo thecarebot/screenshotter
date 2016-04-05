@@ -13,8 +13,8 @@ app.get('/api/image', function (req, res) {
   var elId = req.query.id;
   var url = req.query.url;
 
-  if (!elId || !url) {
-    res.send('Parameters url and id are required');
+  if (!url) {
+    res.send('Parameter url is required.');
     return;
   }
 
@@ -39,15 +39,19 @@ app.get('/api/image', function (req, res) {
 
   // Get the bounds of the page
   .then(function() {
-    // We run `evaluateJavaScript` instead of `evaluate` because
-    // there seems to be a bug passing local variables in to the page.
-    return sitepage.evaluateJavaScript(
-      'function() {return document.getElementById("' + elId + '").getBoundingClientRect(); }'
-    );
+    if (elId) {
+      // We run `evaluateJavaScript` instead of `evaluate` because
+      // there seems to be a bug passing local variables in to the page.
+      return sitepage.evaluateJavaScript(
+        'function() {return document.getElementById("' + elId + '").getBoundingClientRect(); }'
+      );
+    }
+    return;
   })
 
   // Using the bounds, clip the page
   .then(function(bounds) {
+    if (bounds) {
       console.log(bounds.top, bounds.right, bounds.bottom, bounds.left);
 
       return sitepage.property('clipRect', {
@@ -56,6 +60,7 @@ app.get('/api/image', function (req, res) {
         width: bounds.width,
         height: bounds.height
       });
+    }
   })
 
   // Render the image

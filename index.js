@@ -33,22 +33,10 @@ phantom.create()
   return sitepage.open(url);
 })
 
-// Get the dimensions of the element we want.
-.then((status) => {
-  return sitepage.evaluate(function() {
-    // Force the page to the width we want.
-    // document.body.style.width = 1280 + "px";
-
-    // Highlight the article in red
-    console.log("Setting", elId)
-    document.getElementById(elId).style.border = "5px solid red";
-    return;
-  });
-})
-
 // Get the bounds of the page
 .then(function() {
-  // Get the bounds of the page
+  // We run `evaluateJavaScript` instead of `evaluate` because
+  // there seems to be a bug passing local variables in to the page.
   return sitepage.evaluateJavaScript(
     'function() {return document.getElementById("' + elId + '").getBoundingClientRect(); }'
   );
@@ -73,7 +61,6 @@ phantom.create()
 
 .then(function(buffer) {
   b = new Buffer(buffer, 'base64');
-  console.log("Buffer created", b);
 
   // Crop and save the images
   lwip.open(b, 'png', function(error, image) {
@@ -82,9 +69,10 @@ phantom.create()
       return;
     }
     image.writeFile('test.png', function(error) {
-      console.log("Did I save?", error);
+      if (error) {
+        console.log("Error saving image", error);
+      }
     });
-    console.log("Saved image");
     sitepage.close();
     phInstance.exit();
     return;

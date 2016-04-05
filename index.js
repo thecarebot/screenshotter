@@ -66,12 +66,11 @@ app.get('/api/image', function (req, res) {
   .then(function(buffer) {
     b = new Buffer(buffer, 'base64');
 
-    res.status(200);
-    res.writeHead({
+    res.set({
       'Content-Type': 'image/png',
       'Content-Length': b.length
     });
-    res.end(b);
+    res.send(b);
 
     sitepage.close();
     phInstance.exit();

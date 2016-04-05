@@ -9,6 +9,7 @@
   "author": "Matt Hampel",
   "license": "MIT",
   "dependencies": {
+    "express": "^4.13.4",
     "lwip": "0.0.8",
     "phantom": "^2.0.10"
   }
